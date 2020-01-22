@@ -9,11 +9,12 @@ var trivia =[{
     correctAnswer:1
 },
 {
-    question: "Are hedgehogs native to North America?",
-    answerList: ["True","False"],
+    question: "What is a hedgehog's least useful sense?",
+    answerList: ["Hearing","Seeing","Touch","Smell"],
     correctAnswer:1
 }
 ]
+var questionCounter = 0;
 var correctGuess = 0;
 var incorrectGuess = 0;
 var time = 30;
@@ -24,12 +25,12 @@ function timer() {
     function countDown() {
         if (time < 1) {
             clearInterval(clock);
-            userTimeout();
+            $("#remainingTime".text("You ran out of time!"))
         }
         if (time > 0) {
             time--;
         }
-        $("#timeRemaining").html("Time Remaining: " + time);
+        $("#remainingTime").html("Time Remaining: " + time);
     }
 }
 
@@ -37,18 +38,44 @@ function timer() {
 //displays questions
 function questionContent(){
     for(var i=0;i<trivia.length;i++){
-    var newDiv = $("<div>");
-    newDiv.append(trivia[i].question);
-    newDiv.append("<p>" + trivia[i].answerList + "</p>");
-    newDiv
-    $("#questions").append(newDiv);
-    
+    $("#questions").append("<p>" + 
+    trivia[i].question + 
+    "</p><p class='answerList'>" + 
+    trivia[i].answerList[0] + 
+    "</p><p class='answerList'>" + 
+    trivia[i].answerList[1] + 
+    "</p><p class='answerList'>" + 
+    trivia[i].answerList[2] + 
+    "</p><p class='answerList'>" +
+    trivia[i].answerList[3] + 
+    "</p>");
+    questionCounter ++
 }
 }
 
+// Determines on click if user has right or wrong guess.
+$("#questions").on("click", ".answerList", (function() {
+    var userGuess = $(this).text();
+    if (userGuess === trivia[this].correctAnswer) {
+        correctGuess++
+        alert("Correct!")
+    }
+    else {
+        alert("Incorrect!")
+    }
+}),)
+
+
+//starts game
 function initializeGame(){
-    timer();
     questionContent();
+    timer()
 }
+
+
+    
+
+
 
 //Calls function to start game
+initializeGame()
