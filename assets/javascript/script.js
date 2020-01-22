@@ -65,6 +65,22 @@ $("#questions").on("click", ".answerList", (function() {
     }
 }),)
 
+function resultsScreen() {
+    if (correctGuess === 1) {
+        var endMessage = "You got 1 out of 3 right!"
+    }
+    else if (correctGuess === 2 ) {
+        var endMessage = "You got 2 out of 3 right!"
+    }
+    else if (correctGuess === 3){
+        var endMessage = "You got a perfect score!"
+    }
+    else{
+        var endMessage = "Oh.. You didn't get any right."
+    }
+    $("#questions").html(endMessage)
+}
+
 
 //starts game
 function initializeGame(){
