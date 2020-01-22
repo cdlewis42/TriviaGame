@@ -14,15 +14,41 @@ var trivia =[{
     correctAnswer:1
 }
 ]
+var correctGuess = 0;
+var incorrectGuess = 0;
+var time = 30;
 
-//Starts the game
+//function for a timer
+function timer() {
+    clock = setInterval(countDown, 1000);
+    function countDown() {
+        if (time < 1) {
+            clearInterval(clock);
+            userTimeout();
+        }
+        if (time > 0) {
+            time--;
+        }
+        $("#timeRemaining").html("Time Remaining: " + time);
+    }
+}
+
+
+//displays questions
+function questionContent(){
+    for(var i=0;i<trivia.length;i++){
+    var newDiv = $("<div>");
+    newDiv.append(trivia[i].question);
+    newDiv.append("<p>" + trivia[i].answerList + "</p>");
+    newDiv
+    $("#questions").append(newDiv);
+    
+}
+}
 
 function initializeGame(){
-for(var i=0;i<Array.length;i++)
-var newDiv = $("#questions").append("<div>")
-newDiv.append(trivia[i].question);
-newDiv.append(trivia[i].answerList)
+    timer();
+    questionContent();
 }
 
 //Calls function to start game
-initializeGame()
