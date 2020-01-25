@@ -25,3 +25,16 @@ p{
     left:300px
 
 }
+.answerList{
+    background-color: white;
+    width:500px;
+    position:Relative;
+    left:300px;
+    display:block;
+    border:none;
+    margin:10px
+
+}
+.btn:visited{
+    border: 5px dotted red;
+}

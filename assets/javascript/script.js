@@ -18,19 +18,24 @@ var questionCounter = 0;
 var correctGuess = 0;
 var incorrectGuess = 0;
 var time = 30;
+var guesses = 0;
+$("#remainingTime").hide()
+$("#questions").hide()
 
 //function for a timer
 function timer() {
     clock = setInterval(countDown, 1000);
     function countDown() {
-        if (time < 1) {
-            clearInterval(clock);
-            $("#remainingTime".text("You ran out of time!"))
+        if (time === 0) {
+            $("#questions").empty()
+            $("#remainingTime").text("You ran out of time!")
+            $("#questions").text(scoreCard)
+
         }
-        if (time > 0) {
+        else if(time>0){
             time--;
+            $("#remainingTime").html("Time Remaining: " + time);
         }
-        $("#remainingTime").html("Time Remaining: " + time);
     }
 }
 
@@ -40,21 +45,21 @@ function questionContent(){
     for(var i=0;i<trivia.length;i++){
     $("#questions").append("<p>" + 
     trivia[i].question + 
-    "</p><p class='answerList'>" + 
+    "</p><button class='answerList btn'>" + 
     trivia[i].answerList[0] + 
-    "</p><p class='answerList'>" + 
+    "</button><button class='answerList btn'>" + 
     trivia[i].answerList[1] + 
-    "</p><p class='answerList'>" + 
+    "</button><button class='answerList btn'>" + 
     trivia[i].answerList[2] + 
-    "</p><p class='answerList'>" +
+    "</button><button class='answerList btn'>" +
     trivia[i].answerList[3] + 
-    "</p>");
+    "</button>");
     questionCounter ++
 }
 }
 
 // Determines on click if user has right or wrong guess.
-$("#questions").on("click", ".answerList", (function() {
+$(".answerList").on("click", (function() {
     var userGuess = $(this).text();
     if (userGuess === trivia[this].correctAnswer) {
         correctGuess++
@@ -65,14 +70,25 @@ $("#questions").on("click", ".answerList", (function() {
     }
 }),)
 
-function resultsScreen() {
-    if (correctGuess === 1) {
+
+//toggles class to active to change border
+$("btn").on("click", function(){
+$(this).toggleClass('active');
+document.getElementsByClassName("btn").style.border = "5px dotted red"
+})
+
+
+
+var scoreCard = function () {
+    var arrayLength=trivia.length
+
+    if (correctGuess === arrayLength-2) {
         var endMessage = "You got 1 out of 3 right!"
     }
-    else if (correctGuess === 2 ) {
+    else if (correctGuess === arrayLength-1 ) {
         var endMessage = "You got 2 out of 3 right!"
     }
-    else if (correctGuess === 3){
+    else if (correctGuess === arrayLength.length){
         var endMessage = "You got a perfect score!"
     }
     else{
@@ -83,15 +99,12 @@ function resultsScreen() {
 
 
 //starts game
-function initializeGame(){
+
+$("#start").on("click",function(){
     questionContent();
+    $("#questions").show()
+    $("#start").hide()
+    $("#remainingTime").show()
     timer()
-}
+})
 
-
-    
-
-
-
-//Calls function to start game
-initializeGame()
